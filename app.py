@@ -49,8 +49,15 @@ def run_compare(a_rerank, a_topk, b_rerank, b_topk):
     if not os.path.isdir(EVR_HOME):
         return ("EvidenceRAG was not found at %s, so the live run "
                 "cannot start." % EVR_HOME, [], [], "")
-    res_a = run_cases(_runner(a_rerank, a_topk), CASES)
-    res_b = run_cases(_runner(b_rerank, b_topk), CASES)
+    runner_a = _runner(a_rerank, a_topk)
+    runner_b = _runner(b_rerank, b_topk)
+    for r in (runner_a, runner_b):
+        try:
+            r(CASES[0])  # warm-up pass, untimed: loads models and caches
+        except Exception:
+            pass
+    res_a = run_cases(runner_a, CASES)
+    res_b = run_cases(runner_b, CASES)
     rep_a = build_report(CASES, res_a)
     rep_b = build_report(CASES, res_b)
     diff = compare_reports(rep_a, rep_b)
@@ -65,13 +72,27 @@ def run_compare(a_rerank, a_topk, b_rerank, b_topk):
                "Version A (%s) against version B (%s), over %d live "
                "questions." % (cfg(a_rerank, a_topk),
                                cfg(b_rerank, b_topk), len(CASES))]
-    if reasons:
+    shown_reasons = [r for r in reasons
+                     if not r.startswith("regressed cases:")]
+    if shown_reasons:
         verdict.append("")
-        verdict.append("Gate reasons: " + "; ".join(reasons))
+        verdict.append("Gate reasons: " + "; ".join(shown_reasons))
     if diff["regressions"]:
         verdict.append("Regressed cases: " + ", ".join(diff["regressions"]))
     if diff["improvements"]:
         verdict.append("Improved cases: " + ", ".join(diff["improvements"]))
+    both_fail = [c["case_id"] for c in rep_a["cases"]
+                 if not c["passed"] and not {x["case_id"]: x for x in rep_b["cases"]}[c["case_id"]]["passed"]]
+    if both_fail:
+        verdict.append("")
+        verdict.append("Failing in BOTH versions (pre-existing, not "
+                       "caused by this change): " + ", ".join(both_fail))
+    for cid in diff["regressions"] + diff["improvements"]:
+        ta = (res_a.get(cid) or {}).get("answer_text", "")[:150]
+        tb = (res_b.get(cid) or {}).get("answer_text", "")[:150]
+        verdict.append("")
+        verdict.append("**%s** A answered: %s" % (cid, ta or "(refused)"))
+        verdict.append("**%s** B answered: %s" % (cid, tb or "(refused)"))
     if not diff["regressions"] and not diff["improvements"]:
         verdict.append("No case changed its pass/fail outcome.")
 
@@ -99,8 +120,11 @@ def run_compare(a_rerank, a_topk, b_rerank, b_topk):
             mark = "REGRESSED"
         elif pa == "FAIL" and pb == "PASS":
             mark = "IMPROVED"
+        la = (res_a.get(case.id) or {}).get("latency_ms") or 0
+        lb = (res_b.get(case.id) or {}).get("latency_ms") or 0
         case_rows.append([case.id, pa, pb, _top_doc(res_a, case.id),
-                          _top_doc(res_b, case.id), mark])
+                          _top_doc(res_b, case.id), mark,
+                          "%.0f" % la, "%.0f" % lb])
     note = ("Every number above came from running the real EvidenceRAG "
             "pipeline just now, on this machine, over the questions "
             "listed below. First run loads the models and takes about "
@@ -140,8 +164,9 @@ with gr.Blocks(title="TrustLens: Live Regression Check",
         label="Scores", interactive=False)
     case_tbl = gr.Dataframe(
         headers=["Case", "A", "B", "A top source", "B top source",
-                 "Change"],
-        datatype=["str", "str", "str", "str", "str", "str"],
+                 "Change", "A (ms)", "B (ms)"],
+        datatype=["str", "str", "str", "str", "str", "str", "str",
+                  "str"],
         label="Case by case", interactive=False)
     note_md = gr.Markdown("")
     with gr.Accordion("The golden questions used for every run",

@@ -12,6 +12,7 @@ class CaseScore:
     contains_expected: float
     latency_ms: float
     reason: str
+    category: str = ""
 
 
 def _answer_text(result):
@@ -55,7 +56,9 @@ def score_case(case, result):
     if case.should_refuse:
         passed = refused
         reason = "refused as expected" if refused else "answered but should refuse"
-        return CaseScore(case.id, passed, refused, 0.0, 0.0, 0.0, latency, reason)
+        category = "correct_refusal" if refused else "answered_should_refuse"
+        return CaseScore(case.id, passed, refused, 0.0, 0.0, 0.0, latency,
+                         reason, category)
 
     problems = []
     if refused:
@@ -66,8 +69,16 @@ def score_case(case, result):
         problems.append("answer does not contain the expected phrase")
     passed = not problems
     reason = "pass" if passed else "; ".join(problems)
+    if refused:
+        category = "refused_should_answer"
+    elif passed:
+        category = "pass"
+    elif hit1:
+        category = "right_source_wrong_sentence"
+    else:
+        category = "wrong_source"
     return CaseScore(case.id, passed, refused, hit1, prec, contains,
-                     latency, reason)
+                     latency, reason, category)
 
 
 def _pct(values, q):

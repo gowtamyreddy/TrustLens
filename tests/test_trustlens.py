@@ -34,6 +34,15 @@ class TrustLensTests(unittest.TestCase):
                "answer_text": "About 11 m/s.", "citations": []}
         self.assertFalse(score_case(case, bad).passed)
 
+    def test_right_source_wrong_sentence_category(self):
+        case = self.cases[1]  # selfrag_tokens
+        result = {"case_id": case.id, "status": "answered",
+                  "answer_text": "It retrieves passages on demand.",
+                  "citations": [{"doc_id": "2310.11511"}]}
+        score = score_case(case, result)
+        self.assertFalse(score.passed)
+        self.assertEqual(score.category, "right_source_wrong_sentence")
+
     def test_compare_finds_regression_and_gate_fails(self):
         ra = build_report(self.cases, self.a)
         rb = build_report(self.cases, self.b)
