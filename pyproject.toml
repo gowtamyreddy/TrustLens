@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trustlens"
+version = "0.1.0"
+description = "Evaluation regression workbench for LLM and RAG systems"
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["trustlens"]

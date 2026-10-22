@@ -1,0 +1,6 @@
+{"id": "dpr_passages", "question": "How many passages does the DPR knowledge source contain?", "expected_doc_id": "2004.04906", "expected_contains": "21,015,324", "tags": ["factual"]}
+{"id": "selfrag_tokens", "question": "What are Self-RAG reflection tokens?", "expected_doc_id": "2310.11511", "expected_contains": "reflection tokens", "tags": ["factual"]}
+{"id": "raptor_tree", "question": "How does RAPTOR organize retrieved text?", "expected_doc_id": "2401.18059", "expected_contains": "tree", "tags": ["factual"]}
+{"id": "fid_reader", "question": "What does the Fusion-in-Decoder reader do with retrieved passages?", "expected_doc_id": "2007.01282", "expected_contains": "Fusion-in-Decoder", "tags": ["factual"]}
+{"id": "retro_chunks", "question": "How does RETRO use retrieved chunks during generation?", "expected_doc_id": "2112.04426", "expected_contains": "chunks", "tags": ["factual"]}
+{"id": "swallow_refusal", "question": "What is the airspeed velocity of an unladen swallow?", "should_refuse": true, "tags": ["refusal"]}

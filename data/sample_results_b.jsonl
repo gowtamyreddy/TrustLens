@@ -1,0 +1,6 @@
+{"case_id": "dpr_passages", "status": "answered", "latency_ms": 210, "cost_usd": 0.0, "citations": [{"doc_id": "2004.04906"}], "answer_text": "The corpus contains 21,015,324 passages."}
+{"case_id": "selfrag_tokens", "status": "answered", "latency_ms": 180, "cost_usd": 0.0, "citations": [{"doc_id": "2401.18059"}], "answer_text": "It adds special reflection tokens."}
+{"case_id": "raptor_tree", "status": "answered", "latency_ms": 900, "cost_usd": 0.0, "citations": [{"doc_id": "2401.18059"}], "answer_text": "It builds a tree of summaries over chunks."}
+{"case_id": "fid_reader", "status": "answered", "latency_ms": 200, "cost_usd": 0.0, "citations": [{"doc_id": "2007.01282"}], "answer_text": "Fusion-in-Decoder encodes passages jointly."}
+{"case_id": "retro_chunks", "status": "answered", "latency_ms": 230, "cost_usd": 0.0, "citations": [{"doc_id": "2112.04426"}], "answer_text": "It attends over retrieved chunks."}
+{"case_id": "swallow_refusal", "status": "insufficient_evidence", "latency_ms": 90, "cost_usd": 0.0}

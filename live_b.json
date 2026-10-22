@@ -1,0 +1,119 @@
+{
+  "summary": {
+    "cases": 10,
+    "pass_rate": 0.5,
+    "hit_at_1": 1.0,
+    "citation_precision": 1.0,
+    "contains_rate": 0.5,
+    "refusal_cases": 2,
+    "latency_p50_ms": 2406.3,
+    "latency_p95_ms": 5389.0
+  },
+  "cases": [
+    {
+      "case_id": "2310_11511_1",
+      "passed": false,
+      "refused": false,
+      "hit_at_1": 1.0,
+      "citation_precision": 1.0,
+      "contains_expected": 0.0,
+      "latency_ms": 2406.8,
+      "reason": "answer does not contain the expected phrase"
+    },
+    {
+      "case_id": "2401_18059_1",
+      "passed": false,
+      "refused": false,
+      "hit_at_1": 1.0,
+      "citation_precision": 1.0,
+      "contains_expected": 0.0,
+      "latency_ms": 2027.2,
+      "reason": "answer does not contain the expected phrase"
+    },
+    {
+      "case_id": "2306_05685_1",
+      "passed": true,
+      "refused": false,
+      "hit_at_1": 1.0,
+      "citation_precision": 1.0,
+      "contains_expected": 1.0,
+      "latency_ms": 1753.1,
+      "reason": "pass"
+    },
+    {
+      "case_id": "2303_16634_1",
+      "passed": false,
+      "refused": false,
+      "hit_at_1": 1.0,
+      "citation_precision": 1.0,
+      "contains_expected": 0.0,
+      "latency_ms": 2361.7,
+      "reason": "answer does not contain the expected phrase"
+    },
+    {
+      "case_id": "2005_11401_1",
+      "passed": true,
+      "refused": false,
+      "hit_at_1": 1.0,
+      "citation_precision": 1.0,
+      "contains_expected": 1.0,
+      "latency_ms": 4089.8,
+      "reason": "pass"
+    },
+    {
+      "case_id": "2407_04051_1",
+      "passed": false,
+      "refused": false,
+      "hit_at_1": 1.0,
+      "citation_precision": 1.0,
+      "contains_expected": 0.0,
+      "latency_ms": 2406.3,
+      "reason": "answer does not contain the expected phrase"
+    },
+    {
+      "case_id": "gsad-sdee-2022_1",
+      "passed": true,
+      "refused": false,
+      "hit_at_1": 1.0,
+      "citation_precision": 1.0,
+      "contains_expected": 1.0,
+      "latency_ms": 2376.7,
+      "reason": "pass"
+    },
+    {
+      "case_id": "refusal_1",
+      "passed": false,
+      "refused": false,
+      "hit_at_1": 0.0,
+      "citation_precision": 0.0,
+      "contains_expected": 0.0,
+      "latency_ms": 4914.8,
+      "reason": "answered but should refuse"
+    },
+    {
+      "case_id": "refusal_2",
+      "passed": true,
+      "refused": true,
+      "hit_at_1": 0.0,
+      "citation_precision": 0.0,
+      "contains_expected": 0.0,
+      "latency_ms": 5389.0,
+      "reason": "refused as expected"
+    },
+    {
+      "case_id": "gsad-sdee-2022_2",
+      "passed": true,
+      "refused": false,
+      "hit_at_1": 1.0,
+      "citation_precision": 1.0,
+      "contains_expected": 1.0,
+      "latency_ms": 2771.2,
+      "reason": "pass"
+    }
+  ],
+  "config": {
+    "rerank": true,
+    "top_k": 5,
+    "system": "evidencerag-live"
+  }
+}
